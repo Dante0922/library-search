@@ -9,7 +9,7 @@ import org.springframework.test.context.ActiveProfiles
 import spock.lang.Ignore
 import spock.lang.Specification
 
-//@Ignore
+@Ignore
 @SpringBootTest(classes = NaverClientIntegrationTest.TestConfig.class)
 @ActiveProfiles("test")
 class NaverClientIntegrationTest extends Specification {
@@ -18,7 +18,7 @@ class NaverClientIntegrationTest extends Specification {
     static class TestConfig{}
 
     @Autowired
-    NaverClient naverClient;
+    NaverClient naverClient
 
 
     def "naver 호출"() {

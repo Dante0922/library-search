@@ -6,5 +6,5 @@ external:
   naver:
     url: https://openapi.naver.com
     headers:
-      client-id: ${NAVER_API_CLIENT_ID}
-      client-secret: ${NAVER_API_CLIENT_SECRET}
+      client-id: ${NAVER_API_CLIENT_ID:1234}
+      client-secret: ${NAVER_API_CLIENT_SECRET:1234}
