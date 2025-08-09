@@ -1,13 +1,13 @@
-package com.example.sdg;
+package com.example.naverclient;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SdgApplicationTests {
+class NaverClientApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }
