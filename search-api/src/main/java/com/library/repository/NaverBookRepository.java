@@ -7,6 +7,7 @@ import com.library.controller.response.SearchResponse;
 import com.library.feign.NaverClient;
 import library.util.DateUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,12 +15,14 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository
+@Slf4j
 public class NaverBookRepository implements BookRepository{
 
     private final NaverClient naverClient;
 
     @Override
     public PageResult<SearchResponse> search(String query, int page, int size) {
+        log.info("query={}", query);
         NaverBookResponse response = naverClient.search(query, page, size);
 
         List<SearchResponse> responses = response.getItems().stream()

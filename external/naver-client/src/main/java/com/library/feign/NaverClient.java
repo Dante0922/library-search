@@ -1,6 +1,7 @@
 package com.library.feign;
 
 import com.library.NaverBookResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +11,6 @@ public interface NaverClient {
 
     @GetMapping("/v1/search/book.json")
     NaverBookResponse search(@RequestParam("query") String query,
-                             @RequestParam("query") int start,
-                             @RequestParam("query") int display);
+                             @RequestParam("page") int start,
+                             @RequestParam("size") int display);
 }
