@@ -2,7 +2,7 @@ package com.library.controller;
 
 import com.library.controller.response.PageResult;
 import com.library.controller.response.SearchResponse;
-import com.library.service.BookQueryService;
+import com.library.service.BookApplicationService;
 import com.library.config.GlobalExceptionHandler;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
@@ -27,7 +27,8 @@ class BookControllerIntegrationTest {
 
     @Autowired MockMvc mvc;
 
-    @MockBean BookQueryService bookQueryService;
+    @MockBean
+    BookApplicationService bookApplicationService;
 
     @Test
     void 검색_API_정상응답() throws Exception {
@@ -42,7 +43,7 @@ class BookControllerIntegrationTest {
             .build();
         var result = new PageResult<SearchResponse>(page, size, 1, List.of(r1));
 
-        given(bookQueryService.search("HTTP", page, size)).willReturn(result);
+        given(bookApplicationService.search("HTTP", page, size)).willReturn(result);
 
         // when/then
         mvc.perform(get("/books")
@@ -57,8 +58,8 @@ class BookControllerIntegrationTest {
             .andExpect(jsonPath("$.contents", hasSize(1)))
             .andExpect(jsonPath("$.contents[0].title").value("HTTP 완벽가이드"));
 
-        BDDMockito.then(bookQueryService).should().search("HTTP", page, size);
-        BDDMockito.then(bookQueryService).shouldHaveNoMoreInteractions();
+        BDDMockito.then(bookApplicationService).should().search("HTTP", page, size);
+        BDDMockito.then(bookApplicationService).shouldHaveNoMoreInteractions();
     }
 
     @Test
