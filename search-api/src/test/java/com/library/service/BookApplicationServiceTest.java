@@ -6,12 +6,14 @@ import com.library.entity.DailyStat;
 import com.library.repository.DailyStatRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,6 +34,9 @@ class BookApplicationServiceTest {
 
     @MockBean
     BookQueryService bookQueryService; // 외부 API 호출 Mock
+
+    @MockBean
+    DailyStatQueryService dailyStatQueryService;
 
     @DisplayName("search 메서드 호출 시 결과 반환과 통계 데이터 저장을 처리한다.")
     @Test
@@ -62,6 +67,21 @@ class BookApplicationServiceTest {
         DailyStat saved = stats.get(0);
         assertThat(saved.getQuery()).isEqualTo(query);
         assertThat(saved.getEventDateTime()).isBetween(before, after);
+    }
+
+
+    @DisplayName("findQueryCount메서드 호출 시 인자를 그대로 넘긴다.")
+    @Test
+    void findQueryCount() throws Exception{
+        //given
+        String query = "HTTP";
+        LocalDate date = LocalDate.now();
+
+        //when
+        service.findQueryCount(query, date);
+
+        //then
+        verify(dailyStatQueryService, times(1)).findQueryCount(query, date);
     }
 
 }

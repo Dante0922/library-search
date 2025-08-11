@@ -2,8 +2,10 @@ package com.library.controller;
 
 import com.library.controller.response.PageResult;
 import com.library.controller.response.SearchResponse;
+import com.library.controller.response.StatResponse;
 import com.library.service.BookApplicationService;
 import com.library.config.GlobalExceptionHandler;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,5 +98,31 @@ class BookControllerIntegrationTest {
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.errorType").value("INVALID_PARAMETER"))
             .andExpect(jsonPath("$.errorMessage", not(emptyOrNullString())));
+    }
+
+
+    @DisplayName("쿼리별 일별 통계를 조회한다")
+    @Test
+    void findStat() throws Exception{
+        // given
+        String query = "HTTP";
+        LocalDate date = LocalDate.now();
+
+
+        var result = new StatResponse(query, 1);
+
+        given(bookApplicationService.findQueryCount(query, date)).willReturn(result);
+
+        // when // then
+        mvc.perform(get("/books/stats")
+                .param("query", query)
+                .param("date", String.valueOf(date))
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.query").value(query))
+            .andExpect(jsonPath("$.count").value(1));
+
+        BDDMockito.then(bookApplicationService).should().findQueryCount(query, date);
+        BDDMockito.then(bookApplicationService).shouldHaveNoMoreInteractions();
     }
 }
