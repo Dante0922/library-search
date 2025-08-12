@@ -6,9 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.then;
@@ -34,6 +37,20 @@ class DailyStatQueryServiceTest {
         //then
 
         then(repo).should(times(1)).countByQueryAndEventDateTimeBetween(query, LocalDateTime.of(2025, 8, 11, 0, 0, 0), LocalDateTime.of(2025, 8, 11, 23, 59, 59, 999999999));
+    }
 
+    @DisplayName("findTop5Query 조회 시 Top5 Query 반환")
+    @Test
+    void findTop5Query() throws Exception {
+        //given
+        DailyStatRepository repo = mock(DailyStatRepository.class);
+        DailyStatQueryService service = new DailyStatQueryService(repo);
+        Pageable pageable =  PageRequest.of(0, 5);
+
+        //when
+        List<StatResponse> top5Query = service.findTop5Query();
+
+        //then
+        then(repo).should(times(1)).findTopQuery(pageable);
     }
 }

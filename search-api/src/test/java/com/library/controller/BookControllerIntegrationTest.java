@@ -108,8 +108,7 @@ class BookControllerIntegrationTest {
         String query = "HTTP";
         LocalDate date = LocalDate.now();
 
-
-        var result = new StatResponse(query, 1);
+        var result = new StatResponse(query, 1L);
 
         given(bookApplicationService.findQueryCount(query, date)).willReturn(result);
 
@@ -123,6 +122,29 @@ class BookControllerIntegrationTest {
             .andExpect(jsonPath("$.count").value(1));
 
         BDDMockito.then(bookApplicationService).should().findQueryCount(query, date);
+        BDDMockito.then(bookApplicationService).shouldHaveNoMoreInteractions();
+    }
+
+    @DisplayName("Top5 Query를 조회한다")
+    @Test
+    void findTop5Stat() throws Exception{
+        // given
+        String query = "HTTP";
+        LocalDate date = LocalDate.now();
+        StatResponse stat1 = new StatResponse(query, 1L);
+        StatResponse stat2 = new StatResponse(query, 1L);
+        StatResponse stat3 = new StatResponse(query, 1L);
+
+        var result = List.of(stat1, stat2,stat3);
+
+        given(bookApplicationService.findTop5Query()).willReturn(result);
+
+        // when // then
+        mvc.perform(get("/books/stats/ranking")
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+
+        BDDMockito.then(bookApplicationService).should().findTop5Query();
         BDDMockito.then(bookApplicationService).shouldHaveNoMoreInteractions();
     }
 }

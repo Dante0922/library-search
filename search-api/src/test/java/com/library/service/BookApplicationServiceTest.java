@@ -84,4 +84,19 @@ class BookApplicationServiceTest {
         verify(dailyStatQueryService, times(1)).findQueryCount(query, date);
     }
 
+    @DisplayName("findTop5Query 호출 시 dailyStatQueryService의 findTop5Query가 호출된다.")
+    @Test
+    void findTop5Query() throws Exception{
+        //given
+        String query = "HTTP";
+        LocalDate date = LocalDate.now();
+
+        //when
+        service.findTop5Query();
+
+        //then
+        verify(dailyStatQueryService, times(1)).findTop5Query();
+    }
+
+
 }
