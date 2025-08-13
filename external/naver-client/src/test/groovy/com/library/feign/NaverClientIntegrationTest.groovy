@@ -9,7 +9,7 @@ import org.springframework.test.context.ActiveProfiles
 import spock.lang.Ignore
 import spock.lang.Specification
 
-@Ignore
+@Ignore // 실제 호출하기 때문에 평시는 @Ignore
 @SpringBootTest(classes = NaverClientIntegrationTest.TestConfig.class)
 @ActiveProfiles("test")
 class NaverClientIntegrationTest extends Specification {
