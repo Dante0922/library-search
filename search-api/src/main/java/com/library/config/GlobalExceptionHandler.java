@@ -1,5 +1,6 @@
 package com.library.config;
 
+import com.library.controller.response.ErrorResponse;
 import library.exception.ApiException;
 import library.exception.ErrorType;
 import lombok.extern.slf4j.Slf4j;
