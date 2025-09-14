@@ -1,0 +1,31 @@
+spring:
+  profiles:
+    active: local
+  config:
+    import:
+    - application-naver-client.yml
+    - application-kakao-client.yml
+  he:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:lsdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create # TODO 추후 옵션 변경
+    properties:
+      hibernate:
+        format_sql: true
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 100 # window 수
+        minimum-number-of-calls: 10 # 최소 요청 수
+        wait-duration-in-open-state: # open 상태 대기시간
+          seconds: 20
+        failure-rate-threshold: 50 # 실패율
+        permitted-number-of-calls-in-half-open-state: 10 # half-open 도중 허용되는 호출 수

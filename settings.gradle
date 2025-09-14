@@ -1,1 +1,9 @@
 rootProject.name = 'library-search'
+
+include 'search-api'
+include 'external'
+include 'common'
+include 'external:naver-client'
+include 'external:kakao-client'
+findProject(':external:kakao-client')?.name = 'kakao-client'
+

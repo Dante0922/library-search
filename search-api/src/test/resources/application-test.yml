@@ -1,0 +1,24 @@
+spring:
+  profiles:
+    active:
+      on-profile: test
+external:
+  naver:
+    url: https://openapi.naver.com
+    headers:
+      client-id: 123
+      client-secret: 123
+  kakao:
+    url: https://dapi.kakao.com
+    headers:
+      rest-api-key: test
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 100 # window 수
+        minimum-number-of-calls: 10 # 최소 요청 수
+        wait-duration-in-open-state: # open 상태 대기시간
+          seconds: 20
+        failure-rate-threshold: 50 # 실패율
+        permitted-number-of-calls-in-half-open-state: 10 # half
